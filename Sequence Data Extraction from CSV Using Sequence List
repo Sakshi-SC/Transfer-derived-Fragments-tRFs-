@@ -1,0 +1,21 @@
+#Filter rows from a CSV file (stress_rpm10.csv) based on a list of specific sequences of interest provided in another file (sequence_occurrences_in_tissues_s.txt).
+
+import pandas as pd
+
+# Load the main input CSV file into a DataFrame , this file provides full information for these sequences, including details like the tissue type, read counts, and RPM etc.
+main_df = pd.read_csv('stress_rpm10.csv', header=None, names=[
+    'SRR', 'Tissue_type', 'tRF_Type', 'tRNA_info', 'Position', 'Strand',
+    'Sequence', 'Length', 'Read_count', 'RPM', 'Modification'
+])
+
+# Load the file with the sequences of interest
+sequences_of_interest = pd.read_csv('sequence_occurrences_in_tissues_s.txt', header=None, sep='\t')
+sequence_list = sequences_of_interest[0].tolist()
+
+# Filter rows in the main dataframe where the Sequence column matches the sequences of interest
+filtered_df = main_df[main_df['Sequence'].isin(sequence_list)]
+
+# Save the filtered rows to a new file
+filtered_df.to_csv('filtered_sequences_info_s.csv', index=False)
+
+print(f"Full information for the sequences has been saved to 'filtered_sequences_info.csv'.")
