@@ -39,9 +39,9 @@ for _, row in df.iterrows():
         sequence_counts[sequence] += 1
 
 # Save the occurrence counts to a new file
-with open('sequence_occurrences_in_tissues.txt', 'w') as f:
+with open('sequence_occurrences_in_tissues_s.txt', 'w') as f:
     for seq, count in sequence_counts.items():
         f.write(f"{seq}\t{count}\n")
 
-print(f"Sequence occurrences have been written to 'sequence_occurrences_in_tissues.txt'")
+print(f"Sequence occurrences have been written to 'sequence_occurrences_in_tissues_S.txt'")
 
