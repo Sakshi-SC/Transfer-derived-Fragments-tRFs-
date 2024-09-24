@@ -1,0 +1,47 @@
+#To find sequences that appear in more than two different tissue types, save these sequences along with the tissue information, and count the occurrences of these sequences in the dataset. 
+
+import pandas as pd
+
+# Load the CSV file into a DataFrame
+df = pd.read_csv('stress_rpm10.csv') #actual file name which were previously  sorted at rpm value 10. 
+
+# Create a dictionary to track sequences and their associated tissue types
+sequence_tissues = {}
+
+# Populate the dictionary with sequences and their tissue types
+for _, row in df.iterrows():
+    sequence = row['Sequence']
+    tissue_type = row['Tissue_type']
+    
+    if sequence not in sequence_tissues:
+        sequence_tissues[sequence] = set()
+    sequence_tissues[sequence].add(tissue_type)
+
+# Find sequences present in more than one tissue type and store their tissue information
+sequences_info = [
+    (seq, ', '.join(sorted(tissues))) for seq, tissues in sequence_tissues.items() if len(tissues) > 2
+]
+
+# Save the results with tissue information to a file
+with open('sequences_in_multiple_tissues_with_info.txt', 'w') as f:
+    for seq, tissues in sequences_info:
+        f.write(f"{seq}\t{tissues}\n")
+
+print(f"Sequences found in multiple tissues with tissue information have been written to 'sequences_in_multiple_tissues_with_info.txt'")
+
+# Dictionary to store counts for each sequence
+sequence_counts = {seq: 0 for seq, _ in sequences_info}
+
+# Count occurrences of each sequence
+for _, row in df.iterrows():
+    sequence = row['Sequence']
+    if sequence in sequence_counts:
+        sequence_counts[sequence] += 1
+
+# Save the occurrence counts to a new file
+with open('sequence_occurrences_in_tissues.txt', 'w') as f:
+    for seq, count in sequence_counts.items():
+        f.write(f"{seq}\t{count}\n")
+
+print(f"Sequence occurrences have been written to 'sequence_occurrences_in_tissues.txt'")
+
