@@ -1,0 +1,21 @@
+import pandas as pd
+
+# Load the CSV file into a DataFrame
+df = pd.read_csv('../../1_tissue_merged_modified_Tissuenames.csv')
+
+# List of SRR IDs to extract
+srr_stress_ids = [
+    'SRR19383294', 'SRR19383296', 'SRR24184580', 'SRR24184581', 'SRR24184582',
+    'SRR24184583', 'SRR24186612', 'SRR24186613', 'SRR24200892', 'SRR9084827',
+    'SRR9084828', 'SRR9084829', 'SRR9084830', 'SRR9084831', 'SRR9084832',
+    'SRR9084833', 'SRR9084834', 'SRR9084835', 'SRR9084836', 'SRR9084837',
+    'SRR9084838', 'SRR9084839', 'SRR9084840', 'SRR9084841', 'SRR6942633',
+    'SRR6942634', 'SRR6942635', 'SRR6942636', 'SRR1293690', 'SRR1293691', 
+    'SRR1293689'
+]
+
+# Filter rows based on SRR IDs
+filtered_df = df[df['SRR'].isin(srr_stress_ids)]
+
+# Save the filtered data to a new CSV file
+filtered_df.to_csv('stress_data.csv', index=False)
